@@ -8,7 +8,7 @@ public class HistoryData {
     private final String creationDate;
     private final String hash;
     public HistoryData(String hash) {
-        this.name ="第"+String.valueOf(++count)+"版";
+        this.name ="第"+(++count)+"版";
         LocalDateTime currentTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         this.creationDate = currentTime.format(formatter);
