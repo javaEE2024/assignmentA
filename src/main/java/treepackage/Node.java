@@ -2,9 +2,11 @@ package treepackage;
 
 import java.util.HashMap;
 import java.util.ArrayList;
-public class Node{
+
+public class Node {
     private final MetaData metaData;
     private static final HashMap<String, Node> nodeMap = new HashMap<>();
+    private Node parent;
 
     public static boolean containsKey(String Key) {
         return nodeMap.containsKey(Key);
@@ -21,17 +23,24 @@ public class Node{
         nodeMap.put(hash, this);
     }
 
-
     public MetaData getValue() {
         return metaData;
     }
 
-    public String getName(){
+    public String getName() {
         return getValue().fileName();
     }
 
     public void addChild(String childHash) {
         child.add(childHash);
+        Node childNode = get(childHash);
+        if (childNode != null) {
+            childNode.setParent(this);
+        }
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
     }
 
     public int getItemsCount() {
@@ -50,4 +59,41 @@ public class Node{
         return metaData.isFile();
     }
 
+    public Node getChildByName(String name) {
+        for (int i = 0; i < getItemsCount(); i++) {
+            Node childNode = getChildAt(i);
+            if (childNode.getName().equals(name)) {
+                return childNode;
+            }
+        }
+        return null;
+    }
+
+    // 根据相对路径获取文件节点
+    public Node getNodeByPath(String relativePath) {
+        return getNodeByPathHelper(relativePath.split("/"), 0);
+    }
+
+    private Node getNodeByPathHelper(String[] pathParts, int index) {
+        if (index >= pathParts.length) {
+            return null;
+        }
+
+        if (!this.getName().equals(pathParts[index])) {
+            return null;
+        }
+
+        if (index == pathParts.length - 1) {
+            return this;
+        }
+
+        for (int i = 0; i < this.getItemsCount(); i++) {
+            Node child = this.getChildAt(i);
+            Node result = child.getNodeByPathHelper(pathParts, index + 1);
+            if (result != null) {
+                return result;
+            }
+        }
+        return null;
+    }
 }

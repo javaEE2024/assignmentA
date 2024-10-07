@@ -28,8 +28,30 @@
 
     </extensions>
     <actions>
-        <action id="InitTrace" class="tongji.demo.InitTrace" text="InitTrace" description="Start">
+        <!-- 创建一个名为 "MyPlugin" 的子菜单 -->
+        <group id="MyPluginGroup" class="com.intellij.openapi.actionSystem.DefaultActionGroup" text="MyPlugin" description="Plugin functionalities">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </group>
+
+        <!-- 初始化文件树操作 -->
+        <action id="InitTrace" class="tongji.demo.InitTrace" text="Initialize Trace" description="Initialize repository">
+            <add-to-group group-id="MyPluginGroup" anchor="first"/>
+        </action>
+
+        <!-- 新建提交操作 -->
+        <action id="NewCommitAction" class="tongji.demo.NewCommitAction" text="New Commit" description="Create a new commit">
+            <add-to-group group-id="MyPluginGroup" anchor="last"/>
+        </action>
+
+        <!-- 比较文件树操作 -->
+        <action id="DiffTrace" class="tongji.demo.DiffTrace" text="Compare File Trees" description="Show differences between two commits">
+            <add-to-group group-id="MyPluginGroup" anchor="last"/>
+        </action>
+        <action id="tongji.demo.FileDiffAction"
+                class="tongji.demo.FileDiffAction"
+                text="Compare File Versions"
+                description="Compare file differences between two commits">
+            <add-to-group group-id="MyPluginGroup" anchor="last"/>
         </action>
     </actions>
 </idea-plugin>
