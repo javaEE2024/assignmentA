@@ -6,3 +6,4 @@ public record MetaData(String hash, String fileName, boolean isFile) {
         return fileName + "   " + isFile + "   " + hash;
     }
 }
+

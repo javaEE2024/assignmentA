@@ -31,5 +31,9 @@
         <action id="InitTrace" class="tongji.demo.InitTrace" text="InitTrace" description="Start">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
+        <action id="RollbackAction" class="tongji.demo.RollbackAction" text="回滚到指定版本" description="回滚到指定的Git版本">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
     </actions>
+
 </idea-plugin>

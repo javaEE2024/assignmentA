@@ -15,7 +15,7 @@ import com.intellij.openapi.project.Project;
 public class GitTree {
     public static ArrayList<HistoryData>history = new ArrayList<>();
     public static  int pointer=-1;
-    private static String pathOfRoot;
+    public static String pathOfRoot;
     private static String pathOfRepo;
     public static void init(Project project) {
         pathOfRoot=project.getBasePath();
