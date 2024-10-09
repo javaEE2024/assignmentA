@@ -35,6 +35,10 @@ tasks {
         kotlinOptions.jvmTarget = "17"
     }
 
+    withType<JavaExec> {
+        jvmArgs = listOf("-Dfile.encoding=UTF-8")
+    }
+
     patchPluginXml {
         sinceBuild.set("232")
         untilBuild.set("242.*")

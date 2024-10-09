@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class Node {
     private final MetaData metaData;
     private static final HashMap<String, Node> nodeMap = new HashMap<>();
-    private Node parent;
 
     public static boolean containsKey(String Key) {
         return nodeMap.containsKey(Key);
@@ -33,14 +32,7 @@ public class Node {
 
     public void addChild(String childHash) {
         child.add(childHash);
-        Node childNode = get(childHash);
-        if (childNode != null) {
-            childNode.setParent(this);
-        }
-    }
 
-    public void setParent(Node parent) {
-        this.parent = parent;
     }
 
     public int getItemsCount() {
