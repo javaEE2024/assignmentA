@@ -2,6 +2,7 @@ package treepackage;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SerializationHelper {
 
@@ -99,5 +100,27 @@ public class SerializationHelper {
             e.printStackTrace();
         }
         return metaDatas;
+    }
+
+    public static void serializeNodeMap(HashMap<String, Node> nodeMap, String filePath) {
+        try (FileOutputStream fos = new FileOutputStream(filePath);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            SerializableNodeMap serializableNodeMap = new SerializableNodeMap(nodeMap);
+            oos.writeObject(serializableNodeMap);
+            System.out.println("nodeMap has been serialized successfully.");
+        } catch (IOException e) {
+            System.err.println("Serialization failed: " + e.getMessage());
+        }
+    }
+
+    public static HashMap<String, Node> deserializeNodeMap(String filePath) {
+        try (FileInputStream fis = new FileInputStream(filePath);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+            SerializableNodeMap serializableNodeMap = (SerializableNodeMap) ois.readObject();
+            return serializableNodeMap.toOriginalNodeMap();
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Deserialization failed: " + e.getMessage());
+        }
+        return new HashMap<>();
     }
 }

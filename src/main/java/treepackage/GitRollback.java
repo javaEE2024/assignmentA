@@ -9,8 +9,8 @@ import java.nio.file.StandardCopyOption;
 public class GitRollback {
 
     // 回滚到指定版本的历史记录
-    public static void rollbackToVersion(int versionIndex) {
-        if (versionIndex < 0 || versionIndex >= GitTree.history.size()) {
+    public static void rollbackToVersion(String versionHash) {
+        /*if (versionIndex < 0 || versionIndex >= GitTree.history.size()) {
             System.out.println("Invalid version index. Cannot rollback.");
             return;
         }
@@ -20,7 +20,7 @@ public class GitRollback {
         String versionHash = version.getHash();
 
         System.out.println("Rolling back to version: " + version.getName() + " (Hash: " + versionHash + ")");
-
+        */
         // 根据hash恢复文件树
         Node rootNode = Node.get(versionHash);
         if (rootNode != null) {

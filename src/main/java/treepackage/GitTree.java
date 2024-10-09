@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.tree.DefaultMutableTreeNode;
 import com.intellij.openapi.project.Project;
 
@@ -22,6 +23,12 @@ public class GitTree {
         if (pathOfRoot != null) {
             pathOfRepo=new File(pathOfRoot).getParent()+File.separator+"repository";
         }
+        String pathOfSerializableHistoryData=pathOfRepo+File.separator+"HistoryData.ser";
+        ArrayList<HistoryData>oldHistory=SerializationHelper.deserializeHistoryData(pathOfSerializableHistoryData);
+        history.addAll(oldHistory);
+        String pathOfSerializableNodeMap=pathOfRepo+File.separator+"NodeMap.ser";
+        HashMap<String, Node> oldNodeMap=SerializationHelper.deserializeNodeMap(pathOfSerializableNodeMap);
+        Node.nodeMap.putAll(oldNodeMap);
         File repos=new File(pathOfRepo);
         if(!repos.mkdir()){
             System.out.println("Directory has benn created.");

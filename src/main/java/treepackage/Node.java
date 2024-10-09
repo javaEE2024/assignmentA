@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 public class Node{
     private final MetaData metaData;
-    private static final HashMap<String, Node> nodeMap = new HashMap<>();
+    public static HashMap<String, Node> nodeMap = new HashMap<>();
 
     public static boolean containsKey(String Key) {
         return nodeMap.containsKey(Key);

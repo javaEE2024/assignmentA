@@ -11,8 +11,8 @@ public class SerializationDemo {
         historyList.add(data2);
 
 // 序列化 HistoryData 列表到文件
-        SerializationHelper.serializeHistoryData(historyList, "D:\\code\\shiyan\\h.txt");
-        ArrayList<HistoryData> restoredHistoryList = SerializationHelper.deserializeHistoryData("D:\\code\\shiyan\\h.txt");
+        SerializationHelper.serializeHistoryData(historyList, "D:\\code\\shiyan\\h.ser");
+        ArrayList<HistoryData> restoredHistoryList = SerializationHelper.deserializeHistoryData("D:\\code\\shiyan\\h.ser");
 
         ArrayList<Node> nodes = new ArrayList<>();
 
