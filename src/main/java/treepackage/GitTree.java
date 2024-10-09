@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.intellij.openapi.project.Project;
 import com.github.difflib.patch.Patch;
 
@@ -18,14 +20,20 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class GitTree {
     public static ArrayList<HistoryData> history = new ArrayList<>();
     public static int pointer = -1;
-    private static String pathOfRoot;
-    private static String pathOfRepo;
+    public static String pathOfRoot;
+    public static String pathOfRepo;
 
     public static void init(Project project) {
         pathOfRoot = project.getBasePath();
         if (pathOfRoot != null) {
             pathOfRepo = new File(pathOfRoot).getParent() + File.separator + "repository";
         }
+        String pathOfSerializableHistoryData=pathOfRepo+File.separator+"HistoryData.ser";
+        ArrayList<HistoryData>oldHistory=SerializationHelper.deserializeHistoryData(pathOfSerializableHistoryData);
+        history.addAll(oldHistory);
+        String pathOfSerializableNodeMap=pathOfRepo+File.separator+"NodeMap.ser";
+        HashMap<String, Node> oldNodeMap=SerializationHelper.deserializeNodeMap(pathOfSerializableNodeMap);
+        Node.nodeMap.putAll(oldNodeMap);
         File repos = new File(pathOfRepo);
         if (!repos.exists() && !repos.mkdir()) {
             System.out.println("目录已存在或创建失败。");
@@ -46,9 +54,13 @@ public class GitTree {
         return true;
     }
 
+    public static String getPathOfRoot(){
+        return pathOfRoot;
+    }
+
     public static DefaultMutableTreeNode toTree(String rootHash) {
         Node root=Node.get(rootHash);
-        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(root.getValue());
+        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(root.getName());
         for(int i=0;i<root.getItemsCount();i++){
             treeNode.add(toTree(root.getHashAt(i)));
         }
@@ -69,7 +81,7 @@ public class GitTree {
             return newHash;
         }
         ArrayList<String> hashSet = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(dir.getName());
         File[] files = dir.listFiles();
         if (files != null) {
             for (File file : files) {
@@ -103,7 +115,7 @@ public class GitTree {
                     digest.update(byteArray, 0, bytesRead);
                 }
             }
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder(file.getName());
             for (byte b : digest.digest()) {
                 sb.append(String.format("%02x", b));
             }

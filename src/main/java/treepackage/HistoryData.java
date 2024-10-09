@@ -26,4 +26,7 @@ public class HistoryData {
     public String getHash() {
         return hash;
     }
+    public int getCount() {
+        return count;
+    }
 }

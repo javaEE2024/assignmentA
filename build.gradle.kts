@@ -16,6 +16,7 @@ repositories {
 
 dependencies {
     implementation("io.github.java-diff-utils:java-diff-utils:4.12")
+    implementation("org.springframework:spring-context:5.3.21") // 或者其他版本
 }
 
 // Configure Gradle IntelliJ Plugin
