@@ -24,14 +24,40 @@ public class GitTree {
             pathOfRepo=new File(pathOfRoot).getParent()+File.separator+"repository";
         }
         String pathOfSerializableHistoryData=pathOfRepo+File.separator+"HistoryData.ser";
-        ArrayList<HistoryData>oldHistory=SerializationHelper.deserializeHistoryData(pathOfSerializableHistoryData);
-        history.addAll(oldHistory);
+        File historyFile = new File(pathOfSerializableHistoryData);
+        ArrayList<HistoryData> oldHistory;
+        if (historyFile.exists()) {
+            oldHistory = SerializationHelper.deserializeHistoryData(pathOfSerializableHistoryData);
+        } else {
+            oldHistory = new ArrayList<>(); // 文件不存在时创建一个新的空列表
+            SerializationHelper.serializeHistoryData(oldHistory, pathOfSerializableHistoryData); // 初始化保存文件
+            System.out.println("HistoryData.ser 文件不存在，已创建一个新的空文件。");
+        }
+        history.addAll(oldHistory); // 假设 'history' 是你项目中的一个已定义的变量
         String pathOfSerializableNodeMap=pathOfRepo+File.separator+"NodeMap.ser";
+<<<<<<< Updated upstream
         HashMap<String, Node> oldNodeMap=SerializationHelper.deserializeNodeMap(pathOfSerializableNodeMap);
         Node.nodeMap.putAll(oldNodeMap);
         File repos=new File(pathOfRepo);
         if(!repos.mkdir()){
             System.out.println("Directory has benn created.");
+=======
+        File nodeMapFile = new File(pathOfSerializableNodeMap);
+
+        HashMap<String, Node> oldNodeMap;
+        if (nodeMapFile.exists()) {
+            oldNodeMap = SerializationHelper.deserializeNodeMap(pathOfSerializableNodeMap);
+        } else {
+            oldNodeMap = new HashMap<>(); // 文件不存在时创建一个新的空 HashMap
+            SerializationHelper.serializeNodeMap(oldNodeMap, pathOfSerializableNodeMap); // 初始化保存文件
+            System.out.println("NodeMap.ser 文件不存在，已创建一个新的空文件。");
+        }
+        Node.nodeMap.putAll(oldNodeMap); // 将旧的 NodeMap 放入当前的 NodeMap
+
+        File repos = new File(pathOfRepo);
+        if (!repos.exists() && !repos.mkdir()) {
+            System.out.println("目录已存在或创建失败。");
+>>>>>>> Stashed changes
         }
     }
     public static void newCommit(){

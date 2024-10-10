@@ -36,4 +36,9 @@
         </action>
     </actions>
 
+    <applicationListeners>
+        <!-- 注册 ProjectManagerListener -->
+        <listener class="treepackage.MyProjectManagerListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
 </idea-plugin>

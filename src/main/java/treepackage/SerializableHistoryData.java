@@ -5,12 +5,13 @@ public class SerializableHistoryData implements Serializable {
     private String name;
     private String creationDate;
     private String hash;
-
+    private int count;
     // 将 HistoryData 的数据传递给 SerializableHistoryData
     public SerializableHistoryData(HistoryData historyData) {
         this.name = historyData.getName();
         this.creationDate = historyData.getCreationDate();
         this.hash = historyData.getHash();
+        this.count = historyData.getCount();
     }
 
     // 从 SerializableHistoryData 创建 HistoryData 对象
@@ -32,4 +33,12 @@ public class SerializableHistoryData implements Serializable {
     public String getHash() {
         return hash;
     }
+<<<<<<< Updated upstream
 }
+=======
+
+    public int getCount() {
+        return count;
+    }
+}
+>>>>>>> Stashed changes

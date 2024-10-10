@@ -8,7 +8,7 @@ public class SerializationHelper {
 
     // 序列化对象
     public static void serializeObject(Object object, String filePath) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath,false))) {
             out.writeObject(object);
             System.out.println("对象已成功序列化到文件：" + filePath);
         } catch (IOException e) {

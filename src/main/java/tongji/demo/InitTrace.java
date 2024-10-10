@@ -1,5 +1,6 @@
 package tongji.demo;
 
+<<<<<<< Updated upstream
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 
@@ -8,6 +9,12 @@ import java.util.Objects;
 
 import com.intellij.ui.treeStructure.Tree;
 import treepackage.GitTree;
+=======
+
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+
+>>>>>>> Stashed changes
 
 import javax.swing.*;
 
