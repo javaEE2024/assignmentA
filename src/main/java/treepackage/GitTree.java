@@ -25,15 +25,39 @@ public class GitTree {
 
     public static void init(Project project) {
         pathOfRoot = project.getBasePath();
+
         if (pathOfRoot != null) {
             pathOfRepo = new File(pathOfRoot).getParent() + File.separator + "repository";
         }
         String pathOfSerializableHistoryData=pathOfRepo+File.separator+"HistoryData.ser";
-        ArrayList<HistoryData>oldHistory=SerializationHelper.deserializeHistoryData(pathOfSerializableHistoryData);
+        File historyFile = new File(pathOfSerializableHistoryData);
+        ArrayList<HistoryData> oldHistory;
+        if (historyFile.exists()) {
+            oldHistory = SerializationHelper.deserializeHistoryData(pathOfSerializableHistoryData);
+            pointer=SerializationHelper.sePointer;
+
+        } else {
+            oldHistory = new ArrayList<>(); // 文件不存在时创建一个新的空列表
+            SerializationHelper.serializeHistoryData(oldHistory, pathOfSerializableHistoryData); // 初始化保存文件
+            System.out.println("HistoryData.ser 文件不存在，已创建一个新的空文件。");
+
+        }
         history.addAll(oldHistory);
+
+
         String pathOfSerializableNodeMap=pathOfRepo+File.separator+"NodeMap.ser";
-        HashMap<String, Node> oldNodeMap=SerializationHelper.deserializeNodeMap(pathOfSerializableNodeMap);
-        Node.nodeMap.putAll(oldNodeMap);
+        File nodeMapFile = new File(pathOfSerializableNodeMap);
+
+        HashMap<String, Node> oldNodeMap;
+        if (nodeMapFile.exists()) {
+            oldNodeMap = SerializationHelper.deserializeNodeMap(pathOfSerializableNodeMap);
+        } else {
+            oldNodeMap = new HashMap<>(); // 文件不存在时创建一个新的空 HashMap
+            SerializationHelper.serializeNodeMap(oldNodeMap, pathOfSerializableNodeMap); // 初始化保存文件
+            System.out.println("NodeMap.ser 文件不存在，已创建一个新的空文件。");
+        }
+        Node.nodeMap.putAll(oldNodeMap); // 将旧的 NodeMap 放入当前的 NodeMap
+
         File repos = new File(pathOfRepo);
         if (!repos.exists() && !repos.mkdir()) {
             System.out.println("目录已存在或创建失败。");
@@ -43,14 +67,16 @@ public class GitTree {
     public static boolean newCommit() {
         File rootDir = new File(pathOfRoot);
         String rootNodeHash = buildFileTree(rootDir);
+        System.out.println(pointer);
 
-        // 检查是否与上一次提交相同
+
         if (pointer >= 0 && history.get(pointer).getHash().equals(rootNodeHash)) {
             return false;
         }
-
+        System.out.println(pointer);
         history.add(new HistoryData(rootNodeHash));
         pointer++;
+
         return true;
     }
 

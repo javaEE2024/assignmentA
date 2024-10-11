@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SerializationHelper {
-
+    public static int sePointer=-1;
     // 序列化对象
     public static void serializeObject(Object object, String filePath) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath,false))) {
             out.writeObject(object);
             System.out.println("对象已成功序列化到文件：" + filePath);
         } catch (IOException e) {
@@ -26,15 +26,23 @@ public class SerializationHelper {
         }
     }
 
+
     // 序列化整个历史数据列表
     public static void serializeHistoryData(ArrayList<HistoryData> history, String filePath) {
         ArrayList<SerializableHistoryData> serializableHistoryList = new ArrayList<>();
         for (HistoryData data : history) {
             // 使用代理类来包装 HistoryData 对象
             serializableHistoryList.add(new SerializableHistoryData(data));
+
         }
+
         // 序列化代理类列表
-        serializeObject(serializableHistoryList, filePath);
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath, false))) {
+            out.writeObject(serializableHistoryList);  // 将序列化对象写入文件
+            System.out.println("历史数据已成功序列化到文件：" + filePath);
+        } catch (IOException e) {
+            System.err.println("序列化失败: " + e.getMessage());
+        }
     }
 
     // 反序列化整个历史数据列表
@@ -49,6 +57,7 @@ public class SerializationHelper {
             for (SerializableHistoryData serializableData : serializableHistoryList) {
                 // 将代理类转换回 HistoryData 对象
                 historyList.add(serializableData.toHistoryData());
+                sePointer++;
             }
         }
         return historyList;

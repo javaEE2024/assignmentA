@@ -14,9 +14,31 @@ public class GitRollback {
         // 根据hash恢复文件树
         Node rootNode = Node.get(versionHash);
         if (rootNode != null) {
-            restoreFilesFromNode(rootNode, new File(GitTree.pathOfRoot));
+            // 在恢复文件之前，先删除现有文件
+            File rootDirectory = new File(GitTree.pathOfRoot);
+            deleteDirectoryContents(rootDirectory); // 删除目录内容
+            restoreFilesFromNode(rootNode, rootDirectory); // 恢复文件
         } else {
             System.out.println("Error: Cannot find the specified version in the tree.");
+        }
+    }
+
+    // 递归删除目录内容，不删除目录本身
+    private static void deleteDirectoryContents(File directory) {
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        deleteDirectoryContents(file); // 递归删除子目录内容
+                    }
+                    if (!file.delete()) {
+                        System.err.println("Failed to delete: " + file.getPath());
+                    } else {
+                        System.out.println("Deleted: " + file.getPath());
+                    }
+                }
+            }
         }
     }
 

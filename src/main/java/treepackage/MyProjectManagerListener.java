@@ -1,21 +1,24 @@
 package treepackage;
 
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextClosedEvent;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManagerListener;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
-public class IDECloseListener implements ApplicationListener<ContextClosedEvent> {
+public class MyProjectManagerListener implements ProjectManagerListener {
     @Override
-    public void onApplicationEvent(ContextClosedEvent event) {
-        // 当 IDE 关闭时执行的逻辑
+    public void projectClosing(@NotNull Project project) {
+        // 项目关闭时执行操作
+
+
         String pathOfSerializableHistoryData=GitTree.pathOfRepo+ File.separator+"HistoryData.ser";
         String pathOfSerializableNodeMap=GitTree.pathOfRepo+File.separator+"NodeMap.ser";
         SerializationHelper.serializeHistoryData(GitTree.history,pathOfSerializableHistoryData);
         SerializationHelper.serializeNodeMap(Node.nodeMap,pathOfSerializableNodeMap);
-        System.out.println("IDE is closing, saving files...");
-        // 在这里执行保存操作
+
+
     }
+
+
 }
-
-

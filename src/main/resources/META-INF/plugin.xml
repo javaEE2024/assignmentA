@@ -28,16 +28,15 @@
 
     </extensions>
     <actions>
-        <!-- 创建一个名为 "MyPlugin" 的子菜单 -->
-        <group id="MyPluginGroup" class="com.intellij.openapi.actionSystem.DefaultActionGroup" text="MyPlugin" description="Plugin functionalities">
+        <action id="InitTrace" class="tongji.demo.InitTrace" text="InitTrace" description="Start">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </group>
-
-        <!-- 初始化文件树操作 -->
-        <action id="GitTrace" class="tongji.demo.InitTrace" text="Initialize Trace" description="Initialize repository">
-            <add-to-group group-id="MyPluginGroup" anchor="first"/>
         </action>
 
     </actions>
 
+    <applicationListeners>
+        <!-- 注册 ProjectManagerListener -->
+        <listener class="treepackage.MyProjectManagerListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
 </idea-plugin>

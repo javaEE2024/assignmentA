@@ -1,10 +1,9 @@
 package tongji.demo;
 
-import com.github.difflib.patch.Patch;
+
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.github.difflib.patch.AbstractDelta;
-import com.github.difflib.patch.DeltaType;
+
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -38,10 +37,14 @@ public class InitTrace extends AnAction {
     private StyledDocument doc;
     private Tree tree;
     AutoCommitTimer autoCommit;
-
+    private int num=0;
     @Override
     public void actionPerformed(AnActionEvent e) {
-        GitTree.init(Objects.requireNonNull(e.getProject()));
+        if(num==0){
+            GitTree.init(Objects.requireNonNull(e.getProject()));
+            num++;
+        }
+
         GitTree.newCommit();
         tree = new Tree(GitTree.toTree(GitTree.history.get(GitTree.pointer).getHash()));
         // 确保树中的节点已正确添加并显示
