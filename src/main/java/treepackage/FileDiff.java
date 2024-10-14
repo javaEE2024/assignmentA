@@ -34,33 +34,45 @@ public class FileDiff {
             switch (type) {
                 case INSERT:
                     // 处理新增行
-                    delta.getTarget().getLines().forEach(line -> {
-                        int lineNumber = delta.getTarget().getPosition(); // 新增行的行号
+                    List<String> insertedLines = delta.getTarget().getLines();
+                    int insertPosition = delta.getTarget().getPosition();
+                    for (int i = 0; i < insertedLines.size(); i++) {
+                        String line = insertedLines.get(i);
+                        int lineNumber = insertPosition + i + 1; // 计算每行的行号
                         mergedContent.append(line).append("\n");
-                        appendWithBackground(textPane, "Line " + (lineNumber + 1) + ": " + line + "\n", Color.BLUE); // 前景色不变，背景色蓝色
-                    });
+                        appendWithBackground(textPane, "Line " + lineNumber + ": " + line + "\n", Color.BLUE);
+                    }
                     break;
                 case DELETE:
                     // 处理删除行
-                    delta.getSource().getLines().forEach(line -> {
-                        int lineNumber = delta.getSource().getPosition(); // 删除行的行号
+                    List<String> deletedLines = delta.getSource().getLines();
+                    int deletePosition = delta.getSource().getPosition();
+                    for (int i = 0; i < deletedLines.size(); i++) {
+                        String line = deletedLines.get(i);
+                        int lineNumber = deletePosition + i + 1; // 计算每行的行号
                         mergedContent.append(line).append("\n");
-                        appendWithBackground(textPane, "Line " + (lineNumber + 1) + ": " + line + "\n", Color.RED); // 前景色不变，背景色红色
-                    });
+                        appendWithBackground(textPane, "Line " + lineNumber + ": " + line + "\n", Color.RED);
+                    }
                     break;
                 case CHANGE:
                     // 处理修改前的行
-                    delta.getSource().getLines().forEach(line -> {
-                        int lineNumber = delta.getSource().getPosition(); // 修改前的行号
+                    List<String> changedSourceLines = delta.getSource().getLines();
+                    int changeSourcePosition = delta.getSource().getPosition();
+                    for (int i = 0; i < changedSourceLines.size(); i++) {
+                        String line = changedSourceLines.get(i);
+                        int lineNumber = changeSourcePosition + i + 1; // 计算每行的行号
                         mergedContent.append(line).append("\n");
-                        appendWithBackground(textPane, "Line " + (lineNumber + 1) + " (Before): " + line + "\n", Color.YELLOW); // 前景色不变，背景色黄色
-                    });
+                        appendWithBackground(textPane, "Line " + lineNumber + " (Before): " + line + "\n", Color.YELLOW);
+                    }
                     // 处理修改后的行
-                    delta.getTarget().getLines().forEach(line -> {
-                        int lineNumber = delta.getTarget().getPosition(); // 修改后的行号
+                    List<String> changedTargetLines = delta.getTarget().getLines();
+                    int changeTargetPosition = delta.getTarget().getPosition();
+                    for (int i = 0; i < changedTargetLines.size(); i++) {
+                        String line = changedTargetLines.get(i);
+                        int lineNumber = changeTargetPosition + i + 1; // 计算每行的行号
                         mergedContent.append(line).append("\n");
-                        appendWithBackground(textPane, "Line " + (lineNumber + 1) + " (After): " + line + "\n", Color.GREEN); // 前景色不变，背景色绿色
-                    });
+                        appendWithBackground(textPane, "Line " + lineNumber + " (After): " + line + "\n", Color.GREEN);
+                    }
                     break;
                 default:
                     break;

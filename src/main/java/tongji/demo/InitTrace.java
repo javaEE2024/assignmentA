@@ -31,11 +31,11 @@ import treepackage.*;
 
 
 public class InitTrace extends AnAction {
-    private JPanel panel;
+    private  static JPanel panel;
     private JPanel cardPanel; // 保持对卡片面板的引用
     private JTextPane textPane; // 确保声明了这个变量
     private StyledDocument doc;
-    private Tree tree;
+    private static Tree tree;
     AutoCommitTimer autoCommit;
     private int num=0;
     @Override
@@ -101,7 +101,6 @@ public class InitTrace extends AnAction {
                 GitTree.newCommit(); // 提交新版本
 
                 // 提交后刷新历史版本卡片
-                updateTreeView();
                 refreshCards();
                 JOptionPane.showMessageDialog(panel, "新版本已提交");
             }
@@ -174,7 +173,7 @@ public class InitTrace extends AnAction {
         return card;
     }
 
-    public void updateTreeView() {
+    public static void updateTreeView() {
         panel.remove(tree);
         tree = new Tree(GitTree.toTree(GitTree.history.get(GitTree.pointer).getHash()));
         tree.addTreeSelectionListener(new TreeSelectionListener() {

@@ -17,6 +17,8 @@ import com.github.difflib.patch.Patch;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import static tongji.demo.InitTrace.updateTreeView;
+
 public class GitTree {
     public static ArrayList<HistoryData> history = new ArrayList<>();
     public static int pointer = -1;
@@ -73,9 +75,11 @@ public class GitTree {
         if (pointer >= 0 && history.get(pointer).getHash().equals(rootNodeHash)) {
             return false;
         }
+
         System.out.println(pointer);
         history.add(new HistoryData(rootNodeHash));
         pointer++;
+        updateTreeView();
 
         return true;
     }

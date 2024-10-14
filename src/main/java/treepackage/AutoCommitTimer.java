@@ -20,8 +20,7 @@ public class AutoCommitTimer {
                 // 提交新版本
                 GitTree.newCommit();
                 System.out.println("新版本已提交");
-
-                initTrace.updateTreeView();
+                
                 initTrace.refreshCards();
             }
         }, 0, 10000); // 0表示立即开始执行，10000表示间隔10秒
