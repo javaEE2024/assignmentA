@@ -16,14 +16,14 @@ public class FileTreeDiff {
     private static ColoredTreeNode diffNodes(Node oldNode, Node newNode) {
         if (oldNode == null && newNode != null) {
             // 新增的节点，蓝色
-            ColoredTreeNode node = new ColoredTreeNode("+ " + newNode.getName(), Color.BLUE);
+            ColoredTreeNode node = new ColoredTreeNode(newNode.getName(), Color.BLUE);
             for (int i = 0; i < newNode.getItemsCount(); i++) {
                 node.add(diffNodes(null, newNode.getChildAt(i)));
             }
             return node;
         } else if (oldNode != null && newNode == null) {
             // 删除的节点，红色
-            ColoredTreeNode node = new ColoredTreeNode("- " + oldNode.getName(), Color.RED);
+            ColoredTreeNode node = new ColoredTreeNode(oldNode.getName(), Color.RED);
             for (int i = 0; i < oldNode.getItemsCount(); i++) {
                 node.add(diffNodes(oldNode.getChildAt(i), null));
             }
@@ -33,7 +33,7 @@ public class FileTreeDiff {
                 ColoredTreeNode node;
                 if (oldNode.isFile() && newNode.isFile()) {
                     // 修改的文件，黄色
-                    node = new ColoredTreeNode("~ " + newNode.getName(), Color.YELLOW);
+                    node = new ColoredTreeNode(newNode.getName(), Color.YELLOW);
                 } else if (!oldNode.isFile() && !newNode.isFile()) {
                     // 目录，检查子节点变化
                     node = new ColoredTreeNode(newNode.getName(), Color.BLACK);
